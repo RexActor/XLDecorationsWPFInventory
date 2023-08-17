@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="XLDecorationsWPFInventory.UserControls.MaterialsUC"
+            x:Name="MaterialsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:XLDecorationsWPFInventory.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1200" Background="LightGreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="11*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Materials" Grid.Row="0" FontSize="20" HorizontalContentAlignment="Center" FontWeight="Bold" VerticalContentAlignment="Center"/>
+
+            <ListView x:Name="MaterialListView" Margin="10" Grid.Row="1" ItemsSource="{Binding materialsEntities}" >
+
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="CreateMaterialMenu" Header="Create Material" Click="CreateMaterialMenu_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Width="100" Header="Material" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="50" Header="Qty" DisplayMemberBinding="{Binding Qty}"/>
+                        <GridViewColumn Width="50" Header="Cost" DisplayMemberBinding="{Binding Cost}"/>
+                        <GridViewColumn Width="100" Header="Material Type" DisplayMemberBinding="{Binding MaterialType.Type}"/>
+                        <GridViewColumn Width="100" Header="Size" DisplayMemberBinding="{Binding Size}"/>
+                        <GridViewColumn Width="250" Header="Comments" DisplayMemberBinding="{Binding Comments}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Material Types" Grid.Row="0" FontSize="20" HorizontalContentAlignment="Center" FontWeight="Bold" VerticalContentAlignment="Center"/>
+
+            <ListView x:Name="MaterialTypeListView" ItemsSource="{Binding materialTypeEntities}" Margin="10" Grid.Row="1">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="CreateMaterialTypeMenu" Header="Create Type" Click="CreateMaterialTypeMenu_Click"/>
+                        <MenuItem x:Name="DeleteMaterialTypeMenu" Header="Delete Type" Click="DeleteMaterialTypeMenu_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="100" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Width="100" Header="Material" DisplayMemberBinding="{Binding Type}"/>
+                        <GridViewColumn Width="250" Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

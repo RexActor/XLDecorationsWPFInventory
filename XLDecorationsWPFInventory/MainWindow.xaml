@@ -1,0 +1,34 @@
+﻿<Window x:Class="XLDecorationsWPFInventory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XLDecorationsWPFInventory.UserControls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="400" MinHeight="450" MinWidth="1100">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
+            <Button x:Name="CustomersBtn" Margin="5" Grid.Row="0" Content="Customers" Click="CustomersBtn_Click"/>
+            <Button x:Name="MaterialsBtn" Margin="5" Grid.Row="1" Content="Materials" Click="MaterialsBtn_Click"/>
+            <Button x:Name="OrdersBtn" Margin="5" Grid.Row="2" Content="Orders" Click="OrdersBtn_Click"/>
+
+        </Grid>
+        <local:CustomersUC Grid.Column="1" x:Name="CustomersUserControl" Margin="5" Visibility="Hidden"/>
+        <local:MaterialsUC Grid.Column="1" x:Name="MaterialsUserControl" Margin="5" Visibility="Hidden"/>
+        <local:OrdersUC Grid.Column="1" x:Name="OrdersUserControl" Margin="5" Visibility="Hidden"/>
+
+    </Grid>
+</Window>
