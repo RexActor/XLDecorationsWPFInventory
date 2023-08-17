@@ -7,8 +7,8 @@ using XLDecorationsWPFInventory.Data;
 
 #nullable disable
 
-namespace XLDecorationsWPFInventory.Migrations
-{
+namespace XLDecorationsWPFInventory.Migrations;
+
     [DbContext(typeof(AppDbContext))]
     [Migration("20230816084927_MaterialTypeEntity_Added_Update_MaterialEntity")]
     partial class MaterialTypeEntity_Added_Update_MaterialEntity
@@ -196,4 +196,3 @@ namespace XLDecorationsWPFInventory.Migrations
 #pragma warning restore 612, 618
         }
     }
-}

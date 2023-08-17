@@ -5,18 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XLDecorationsWPFInventory.Data.Models
+namespace XLDecorationsWPFInventory.Data.Models;
+
+public class OrderItemMaterialEntity
 {
-	public class OrderItemMaterialEntity
-	{
 
 
 
-		public int Id { get; set; }
-		public int OrderItemId { get; set; }
+	public int Id { get; set; }
+	public int OrderItemId { get; set; }
 
-		[ForeignKey(nameof(OrderItemId))]
-		public OrderItemEntity OrderItem { get; set; }
-		public int Qty { get; set; }
-	}
+	[ForeignKey(nameof(OrderItemId))]
+	public OrderItemEntity OrderItem { get; set; }
+	public int Qty { get; set; }
 }

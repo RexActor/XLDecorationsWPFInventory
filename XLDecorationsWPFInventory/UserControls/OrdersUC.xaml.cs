@@ -13,16 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace XLDecorationsWPFInventory.UserControls
+namespace XLDecorationsWPFInventory.UserControls;
+
+/// <summary>
+/// Interaction logic for OrdersUC.xaml
+/// </summary>
+public partial class OrdersUC : UserControl
 {
-	/// <summary>
-	/// Interaction logic for OrdersUC.xaml
-	/// </summary>
-	public partial class OrdersUC : UserControl
+	public OrdersUC()
 	{
-		public OrdersUC()
-		{
-			InitializeComponent();
-		}
+		InitializeComponent();
 	}
 }

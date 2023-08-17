@@ -2,8 +2,8 @@
 
 #nullable disable
 
-namespace XLDecorationsWPFInventory.Migrations
-{
+namespace XLDecorationsWPFInventory.Migrations;
+
     /// <inheritdoc />
     public partial class MeasureType_Added_MaterialEntity : Migration
     {
@@ -47,4 +47,3 @@ namespace XLDecorationsWPFInventory.Migrations
                 table: "Materials");
         }
     }
-}

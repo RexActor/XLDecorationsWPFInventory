@@ -7,8 +7,8 @@ using XLDecorationsWPFInventory.Data;
 
 #nullable disable
 
-namespace XLDecorationsWPFInventory.Migrations
-{
+namespace XLDecorationsWPFInventory.Migrations;
+
     [DbContext(typeof(AppDbContext))]
     [Migration("20230816141306_MeasureTypeTableAdded")]
     partial class MeasureTypeTableAdded
@@ -211,4 +211,3 @@ namespace XLDecorationsWPFInventory.Migrations
 #pragma warning restore 612, 618
         }
     }
-}

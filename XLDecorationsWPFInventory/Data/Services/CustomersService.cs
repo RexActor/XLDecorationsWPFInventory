@@ -10,57 +10,56 @@ using System.Windows;
 
 using XLDecorationsWPFInventory.Data.Models;
 
-namespace XLDecorationsWPFInventory.Data.Services
+namespace XLDecorationsWPFInventory.Data.Services;
+
+public class CustomersService : ICustomersService
 {
-	public class CustomersService : ICustomersService
+	private readonly AppDbContext _context;
+
+	ObservableCollection<CustomerEntity> customerEntities = new ObservableCollection<CustomerEntity>();
+
+
+	public CustomersService()
 	{
-		private readonly AppDbContext _context;
+		_context = MainWindow._context;
+	}
 
-		ObservableCollection<CustomerEntity> customerEntities = new ObservableCollection<CustomerEntity>();
+	public async Task<CustomerEntity> CreateCustomer(CustomerEntity entity)
+	{
 
 
-		public CustomersService()
+		await _context.Customers.AddAsync(entity);
+
+		await _context.SaveChangesAsync();
+		return entity;
+	}
+
+	public bool CustomerCheck(string customerName)
+	{
+		return _context.Customers.Where(item => item.CustomerName.ToLower() == customerName.ToLower()).Any();
+	}
+
+	public void DeleteCustomer(CustomerEntity customer)
+	{
+
+		var customerToRemove = _context.Customers.Where(item => item.Id == customer.Id).FirstOrDefault();
+		if (customerToRemove is not null)
 		{
-			_context = MainWindow._context;
+			_context.Customers.Remove(customerToRemove);
+			_context.SaveChanges();
 		}
 
-		public async Task<CustomerEntity> CreateCustomer(CustomerEntity entity)
-		{
+
+	}
+
+	public ObservableCollection<CustomerEntity> GetCustomers()
+	{
+		_context.Customers.ForEachAsync(item =>
+	   {
+		   customerEntities.Add(item);
+	   });
 
 
-			await _context.Customers.AddAsync(entity);
-
-			await _context.SaveChangesAsync();
-			return entity;
-		}
-
-		public bool CustomerCheck(string customerName)
-		{
-			return _context.Customers.Where(item => item.CustomerName.ToLower() == customerName.ToLower()).Any();
-		}
-
-		public void DeleteCustomer(CustomerEntity customer)
-		{
-
-			var customerToRemove = _context.Customers.Where(item => item.Id == customer.Id).FirstOrDefault();
-			if (customerToRemove is not null)
-			{
-				_context.Customers.Remove(customerToRemove);
-				_context.SaveChanges();
-			}
-
-
-		}
-
-		public ObservableCollection<CustomerEntity> GetCustomers()
-		{
-			_context.Customers.ForEachAsync(item =>
-		   {
-			   customerEntities.Add(item);
-		   });
-
-
-			return customerEntities;
-		}
+		return customerEntities;
 	}
 }

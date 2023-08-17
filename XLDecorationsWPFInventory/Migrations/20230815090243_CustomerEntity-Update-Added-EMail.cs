@@ -2,8 +2,8 @@
 
 #nullable disable
 
-namespace XLDecorationsWPFInventory.Migrations
-{
+namespace XLDecorationsWPFInventory.Migrations;
+
     /// <inheritdoc />
     public partial class CustomerEntityUpdateAddedEMail : Migration
     {
@@ -26,4 +26,3 @@ namespace XLDecorationsWPFInventory.Migrations
                 table: "Customers");
         }
     }
-}

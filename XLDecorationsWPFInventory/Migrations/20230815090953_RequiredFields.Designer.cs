@@ -7,8 +7,8 @@ using XLDecorationsWPFInventory.Data;
 
 #nullable disable
 
-namespace XLDecorationsWPFInventory.Migrations
-{
+namespace XLDecorationsWPFInventory.Migrations;
+
     [DbContext(typeof(AppDbContext))]
     [Migration("20230815090953_RequiredFields")]
     partial class RequiredFields
@@ -153,4 +153,3 @@ namespace XLDecorationsWPFInventory.Migrations
 #pragma warning restore 612, 618
         }
     }
-}

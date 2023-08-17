@@ -6,14 +6,13 @@ using XLDecorationsWPFInventory.Data.Models;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
-namespace XLDecorationsWPFInventory.Data.Services
-{
-	public interface ICustomersService
-	{
-		public Task<CustomerEntity> CreateCustomer(CustomerEntity entity);
-		public ObservableCollection<CustomerEntity> GetCustomers();
-		public bool CustomerCheck(string customerName);
-		public void DeleteCustomer(CustomerEntity customer);
+namespace XLDecorationsWPFInventory.Data.Services;
 
-	}
+public interface ICustomersService
+{
+	public Task<CustomerEntity> CreateCustomer(CustomerEntity entity);
+	public ObservableCollection<CustomerEntity> GetCustomers();
+	public bool CustomerCheck(string customerName);
+	public void DeleteCustomer(CustomerEntity customer);
+
 }

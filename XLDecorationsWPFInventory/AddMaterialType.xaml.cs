@@ -16,47 +16,46 @@ using XLDecorationsWPFInventory.Data.Models;
 using XLDecorationsWPFInventory.Data.Services;
 using XLDecorationsWPFInventory.UserControls;
 
-namespace XLDecorationsWPFInventory
+namespace XLDecorationsWPFInventory;
+
+/// <summary>
+/// Interaction logic for AddMaterialType.xaml
+/// </summary>
+public partial class AddMaterialType : Window
 {
-	/// <summary>
-	/// Interaction logic for AddMaterialType.xaml
-	/// </summary>
-	public partial class AddMaterialType : Window
+
+	private readonly IMaterialService _serviceMaterial = MainWindow._materialService;
+
+	public AddMaterialType()
+	{
+		InitializeComponent();
+	}
+
+	private void CreateBtn_Click(object sender, RoutedEventArgs e)
 	{
 
-		private readonly IMaterialService _serviceMaterial = MainWindow._materialService;
+		if(MaterialTypeNameTextBox.Text==string.Empty || MaterialDescriptionTextBox.Text == string.Empty) { MessageBox.Show("Please fill all inputs"); return; }
 
-		public AddMaterialType()
+		if (_serviceMaterial.MaterialTypeExists(MaterialTypeNameTextBox.Text)) { MessageBox.Show("Material Already exists!"); return; }
+
+
+		MaterialTypeEntity materialType = new MaterialTypeEntity
 		{
-			InitializeComponent();
-		}
+			Description = MaterialDescriptionTextBox.Text,
+			Type = MaterialTypeNameTextBox.Text
+		};
 
-		private void CreateBtn_Click(object sender, RoutedEventArgs e)
-		{
+		_serviceMaterial.CreateMaterialType(materialType);
 
-			if(MaterialTypeNameTextBox.Text==string.Empty || MaterialDescriptionTextBox.Text == string.Empty) { MessageBox.Show("Please fill all inputs"); return; }
+		MaterialTypeNameTextBox.Text = string.Empty;
+		MaterialDescriptionTextBox.Text = string.Empty;
 
-			if (_serviceMaterial.MaterialTypeExists(MaterialTypeNameTextBox.Text)) { MessageBox.Show("Material Already exists!"); return; }
-
-
-			MaterialTypeEntity materialType = new MaterialTypeEntity
-			{
-				Description = MaterialDescriptionTextBox.Text,
-				Type = MaterialTypeNameTextBox.Text
-			};
-
-			_serviceMaterial.CreateMaterialType(materialType);
-
-			MaterialTypeNameTextBox.Text = string.Empty;
-			MaterialDescriptionTextBox.Text = string.Empty;
-
-			MaterialsUC.materialTypeEntities.Add(materialType);
+		MaterialsUC.materialTypeEntities.Add(materialType);
 
 
 
 
 
 
-		}
 	}
 }

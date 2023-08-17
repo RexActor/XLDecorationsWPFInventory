@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace XLDecorationsWPFInventory.Data.Validations
-{
+namespace XLDecorationsWPFInventory.Data.Validations;
+
     internal class XLDecorationsValidationRule : ValidationRule
     {
 
@@ -26,4 +26,3 @@ namespace XLDecorationsWPFInventory.Data.Validations
 
 
     }
-}

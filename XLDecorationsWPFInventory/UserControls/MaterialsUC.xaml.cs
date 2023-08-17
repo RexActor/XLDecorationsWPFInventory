@@ -18,60 +18,59 @@ using System.Windows.Shapes;
 using XLDecorationsWPFInventory.Data.Models;
 using XLDecorationsWPFInventory.Data.Services;
 
-namespace XLDecorationsWPFInventory.UserControls
+namespace XLDecorationsWPFInventory.UserControls;
+
+/// <summary>
+/// Interaction logic for MaterialsUC.xaml
+/// </summary>
+public partial class MaterialsUC : UserControl
 {
-	/// <summary>
-	/// Interaction logic for MaterialsUC.xaml
-	/// </summary>
-	public partial class MaterialsUC : UserControl
+
+
+	public static ObservableCollection<MaterialsEntity> materialsEntities = new ObservableCollection<MaterialsEntity>();
+	public static ObservableCollection<MaterialTypeEntity> materialTypeEntities = new ObservableCollection<MaterialTypeEntity>();
+
+	private readonly IMaterialService _service = MainWindow._materialService;
+
+	public MaterialsUC()
 	{
+		InitializeComponent();
+		materialTypeEntities = _service.GetMaterialType();
+		MaterialTypeListView.ItemsSource = materialTypeEntities;
+		materialsEntities = _service.GetMaterial();
+		MaterialListView.ItemsSource = materialsEntities;
+	}
 
+	private void CreateMaterialTypeMenu_Click(object sender, RoutedEventArgs e)
+	{
+		AddMaterialType addMaterialType = new AddMaterialType();
+		addMaterialType.Show();
 
-		public static ObservableCollection<MaterialsEntity> materialsEntities = new ObservableCollection<MaterialsEntity>();
-		public static ObservableCollection<MaterialTypeEntity> materialTypeEntities = new ObservableCollection<MaterialTypeEntity>();
+	}
 
-		private readonly IMaterialService _service = MainWindow._materialService;
+	private void CreateMaterialMenu_Click(object sender, RoutedEventArgs e)
+	{
+		AddMaterial addMaterial = new AddMaterial();
+		addMaterial.Show();
 
-		public MaterialsUC()
+	}
+
+	private void DeleteMaterialTypeMenu_Click(object sender, RoutedEventArgs e)
+	{
+		MaterialTypeEntity materialTypeEntity = MaterialTypeListView.SelectedItem as MaterialTypeEntity;
+
+		MessageBoxResult msgBoxResult = MessageBox.Show($"You are deleting material type {materialTypeEntity.Type}! Are you sure?", "Material Type Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+		if (msgBoxResult == MessageBoxResult.Yes)
 		{
-			InitializeComponent();
-			materialTypeEntities = _service.GetMaterialType();
-			MaterialTypeListView.ItemsSource = materialTypeEntities;
-			materialsEntities = _service.GetMaterial();
-			MaterialListView.ItemsSource = materialsEntities;
-		}
 
-		private void CreateMaterialTypeMenu_Click(object sender, RoutedEventArgs e)
-		{
-			AddMaterialType addMaterialType = new AddMaterialType();
-			addMaterialType.Show();
+			var itemRemoved = _service.DeleteMaterialType(materialTypeEntity);
 
-		}
-
-		private void CreateMaterialMenu_Click(object sender, RoutedEventArgs e)
-		{
-			AddMaterial addMaterial = new AddMaterial();
-			addMaterial.Show();
-
-		}
-
-		private void DeleteMaterialTypeMenu_Click(object sender, RoutedEventArgs e)
-		{
-			MaterialTypeEntity materialTypeEntity = MaterialTypeListView.SelectedItem as MaterialTypeEntity;
-
-			MessageBoxResult msgBoxResult = MessageBox.Show($"You are deleting material type {materialTypeEntity.Type}! Are you sure?", "Material Type Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-			if (msgBoxResult == MessageBoxResult.Yes)
+			if (itemRemoved)
 			{
-
-				var itemRemoved = _service.DeleteMaterialType(materialTypeEntity);
-
-				if (itemRemoved)
-				{
-					materialTypeEntities.Remove(materialTypeEntity);
-				}
+				materialTypeEntities.Remove(materialTypeEntity);
 			}
-
 		}
+
 	}
 }

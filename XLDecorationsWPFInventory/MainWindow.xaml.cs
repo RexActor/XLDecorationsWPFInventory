@@ -16,51 +16,50 @@ using System.Windows.Shapes;
 using XLDecorationsWPFInventory.Data;
 using XLDecorationsWPFInventory.Data.Services;
 
-namespace XLDecorationsWPFInventory
+namespace XLDecorationsWPFInventory;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
+	public static readonly AppDbContext _context = new AppDbContext();
+
+	public static MainWindow mainWindow;
+	public static readonly CustomersService _service = new CustomersService();
+	public static readonly MaterialService _materialService = new MaterialService();
+	
+
+
+	public MainWindow()
 	{
-		public static readonly AppDbContext _context = new AppDbContext();
+		InitializeComponent();
+		mainWindow = this;
 
-		public static MainWindow mainWindow;
-		public static readonly CustomersService _service = new CustomersService();
-		public static readonly MaterialService _materialService = new MaterialService();
-		
+	}
 
+	private void CustomersBtn_Click(object sender, RoutedEventArgs e)
+	{
+		this.Width = 800;
+		CustomersUserControl.Visibility = Visibility.Visible;
+		MaterialsUserControl.Visibility = Visibility.Hidden;
+		OrdersUserControl.Visibility = Visibility.Hidden;
+	}
 
-		public MainWindow()
-		{
-			InitializeComponent();
-			mainWindow = this;
+	private void MaterialsBtn_Click(object sender, RoutedEventArgs e)
+	{
+		this.Width = 1500;
+		CustomersUserControl.Visibility = Visibility.Hidden;
+		MaterialsUserControl.Visibility = Visibility.Visible;
+		OrdersUserControl.Visibility = Visibility.Hidden;
+	}
 
-		}
+	private void OrdersBtn_Click(object sender, RoutedEventArgs e)
+	{
+		this.Width = 800;
+		CustomersUserControl.Visibility = Visibility.Hidden;
+		MaterialsUserControl.Visibility = Visibility.Hidden;
+		OrdersUserControl.Visibility = Visibility.Visible;
 
-		private void CustomersBtn_Click(object sender, RoutedEventArgs e)
-		{
-			this.Width = 800;
-			CustomersUserControl.Visibility = Visibility.Visible;
-			MaterialsUserControl.Visibility = Visibility.Hidden;
-			OrdersUserControl.Visibility = Visibility.Hidden;
-		}
-
-		private void MaterialsBtn_Click(object sender, RoutedEventArgs e)
-		{
-			this.Width = 1500;
-			CustomersUserControl.Visibility = Visibility.Hidden;
-			MaterialsUserControl.Visibility = Visibility.Visible;
-			OrdersUserControl.Visibility = Visibility.Hidden;
-		}
-
-		private void OrdersBtn_Click(object sender, RoutedEventArgs e)
-		{
-			this.Width = 800;
-			CustomersUserControl.Visibility = Visibility.Hidden;
-			MaterialsUserControl.Visibility = Visibility.Hidden;
-			OrdersUserControl.Visibility = Visibility.Visible;
-
-		}
 	}
 }

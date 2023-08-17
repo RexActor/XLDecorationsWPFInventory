@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XLDecorationsWPFInventory.Data.Models
-{
-	public class MaterialTypeEntity
-	{
-		public int Id { get; set; }
-		public string Type { get; set; }
-		public string Description { get; set; }
+namespace XLDecorationsWPFInventory.Data.Models;
 
-	}
+public class MaterialTypeEntity
+{
+	public int Id { get; set; }
+	public string Type { get; set; }
+	public string Description { get; set; }
+
 }

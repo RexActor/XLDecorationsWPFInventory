@@ -2,8 +2,8 @@
 
 #nullable disable
 
-namespace XLDecorationsWPFInventory.Migrations
-{
+namespace XLDecorationsWPFInventory.Migrations;
+
     /// <inheritdoc />
     public partial class MaterialEntityCostFieldTypeChange : Migration
     {
@@ -19,4 +19,3 @@ namespace XLDecorationsWPFInventory.Migrations
 
         }
     }
-}

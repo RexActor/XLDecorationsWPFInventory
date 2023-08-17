@@ -9,29 +9,28 @@ using System.Threading.Tasks;
 
 using XLDecorationsWPFInventory.Data.Models;
 
-namespace XLDecorationsWPFInventory.Data
+namespace XLDecorationsWPFInventory.Data;
+
+public class AppDbContext : DbContext
 {
-	public class AppDbContext : DbContext
+
+
+	protected override void OnConfiguring(
+	   DbContextOptionsBuilder optionsBuilder)
 	{
+		optionsBuilder.UseSqlite(
+			"Data Source=./Data/AppDb.db");
+		//optionsBuilder.UseLazyLoadingProxies();
 
-
-		protected override void OnConfiguring(
-		   DbContextOptionsBuilder optionsBuilder)
-		{
-			optionsBuilder.UseSqlite(
-				"Data Source=./Data/AppDb.db");
-			//optionsBuilder.UseLazyLoadingProxies();
-
-		}
-
-
-
-		public DbSet<OrdersEntity> Orders { get; set; }
-		public DbSet<CustomerEntity> Customers { get; set; }
-		public DbSet<OrderItemEntity> OrderItems { get; set; }
-		public DbSet<OrderItemMaterialEntity> OrderItemsMaterials { get; set; }
-		public DbSet<MaterialsEntity> Materials { get; set; }
-		public DbSet<MaterialTypeEntity> MaterialTypes { get; set; }
-		public DbSet<MeasureTypeEntity> MeasureTypes { get; set; }
 	}
+
+
+
+	public DbSet<OrdersEntity> Orders { get; set; }
+	public DbSet<CustomerEntity> Customers { get; set; }
+	public DbSet<OrderItemEntity> OrderItems { get; set; }
+	public DbSet<OrderItemMaterialEntity> OrderItemsMaterials { get; set; }
+	public DbSet<MaterialsEntity> Materials { get; set; }
+	public DbSet<MaterialTypeEntity> MaterialTypes { get; set; }
+	public DbSet<MeasureTypeEntity> MeasureTypes { get; set; }
 }
