@@ -37,7 +37,30 @@ public class MaterialService : IMaterialService
 		await _context.SaveChangesAsync();
 		return entity;
 	}
+	public async Task<MaterialsEntity> UpdateMaterial(MaterialsEntity entity)
+	{
+		var materialToUpdate = await _context.Materials.Where(item => item.Id == entity.Id).Include(item => item.MaterialType).Include(item => item.MaterialMeasureType).FirstOrDefaultAsync();
 
+		if (materialToUpdate is not null)
+		{
+
+			materialToUpdate.Qty = entity.Qty;
+			materialToUpdate.Size = entity.Size;
+			materialToUpdate.MaterialMeasureTypeId = entity.MaterialMeasureTypeId;
+			materialToUpdate.MaterialTypeId = entity.MaterialTypeId;
+			materialToUpdate.Comments = entity.Comments;
+			materialToUpdate.Name = entity.Name;
+
+			_context.Materials.Update(materialToUpdate);
+
+			await _context.SaveChangesAsync();
+		}
+
+
+		return entity;
+
+
+	}
 	public async Task<MaterialTypeEntity> CreateMaterialType(MaterialTypeEntity entity)
 	{
 		await _context.MaterialTypes.AddAsync(entity);
@@ -79,12 +102,18 @@ public class MaterialService : IMaterialService
 
 	public ObservableCollection<MaterialsEntity> GetMaterial()
 	{
-		_context.Materials.ForEachAsync(item =>
+		_context.Materials.Include(item => item.MaterialMeasureType).Include(item => item.MaterialType).ForEachAsync(item =>
 		{
 			if (!materialsEntities.Contains(item)) { materialsEntities.Add(item); }
 		});
 		return materialsEntities;
 	}
+
+	public Task<MaterialsEntity> GetMaterialById(int id)
+	{
+		return _context.Materials.Include(item => item.MaterialMeasureType).Include(item => item.MaterialType).FirstOrDefaultAsync(item => item.Id == id);
+	}
+
 
 	public ObservableCollection<MaterialTypeEntity> GetMaterialType()
 	{

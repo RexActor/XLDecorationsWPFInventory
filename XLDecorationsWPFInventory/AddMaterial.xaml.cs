@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
+using Microsoft.Extensions.Options;
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -29,6 +32,7 @@ public partial class AddMaterial : Window
 	private ObservableCollection<MaterialTypeEntity> materialTypes = new ObservableCollection<MaterialTypeEntity>();
 	private ObservableCollection<MaterialsEntity> materials = new ObservableCollection<MaterialsEntity>();
 	private ObservableCollection<MeasureTypeEntity> measureTypes = new ObservableCollection<MeasureTypeEntity>();
+	public static MaterialsEntity material;
 
 
 	public AddMaterial()
@@ -39,7 +43,31 @@ public partial class AddMaterial : Window
 
 		UpdateMaterialTypes();
 		UpdateMeasureTypes();
+
+
+		if (material is not null)
+		{
+			UpdateMaterialInfo();
+
+		}
+
 		//MaterialTypeComboBox.ItemsSource= materialTypes;
+	}
+
+	private void UpdateMaterialInfo()
+	{
+
+
+		MaterialTypeComboBox.Text = material.MaterialTypeId.ToString();
+		MaterialTypeComboBox.SelectedValue = material.MaterialTypeId;
+		MaterialMeasureTypeComboBox.Text = material.MaterialMeasureType.Type;
+		MaterialMeasureTypeComboBox.SelectedValue = material.MaterialMeasureTypeId;
+		MaterialCostTextBox.Text = material.Cost.ToString();
+		MaterialCommentTextBlock.Text = material.Comments.ToString();
+		MaterialNameTextBox.Text = material.Name.ToString();
+		MaterialQuantityTextBox.Text = material.Qty.ToString();
+		MaterialSizeTextBox.Text = material.Size.ToString();
+		CreateBtn.Content = "Update";
 	}
 
 	private void UpdateMeasureTypes()
@@ -76,6 +104,8 @@ public partial class AddMaterial : Window
 	private void CreateBtn_Click(object sender, RoutedEventArgs e)
 	{
 
+
+
 		if (MaterialNameTextBox.Text == string.Empty ||
 			MaterialCostTextBox.Text == string.Empty ||
 			MaterialSizeTextBox.Text == string.Empty ||
@@ -99,50 +129,82 @@ public partial class AddMaterial : Window
 			return;
 		}
 
+		MaterialsEntity material = GenerateMaterialInfo();
 
 
-		if (!_service.MaterialExists(MaterialNameTextBox.Text))
+		if (CreateBtn.Content == "Update")
 		{
 
-			MaterialsEntity material = new MaterialsEntity
-			{
-				Name = MaterialNameTextBox.Text,
-				MaterialTypeId = (int)MaterialTypeComboBox.SelectedValue,
-				MaterialMeasureTypeId = (int)MaterialMeasureTypeComboBox.SelectedValue,
-				Cost = Convert.ToDouble(MaterialCostTextBox.Text),
-				Qty = Convert.ToDouble(MaterialQuantityTextBox.Text),
-				Size = MaterialSizeTextBox.Text,
-				Comments = MaterialCommentTextBlock.Text
+			var updateItem = materials.FirstOrDefault(item => item.Id == material.Id);
+			var updateItem2 = MaterialsUC.materialsEntities.FirstOrDefault(item => item.Id == material.Id);
+
+			materials.Remove(updateItem);
+			MaterialsUC.materialsEntities.Remove(updateItem2);
+
+			material.MaterialMeasureType = MaterialMeasureTypeComboBox.SelectedItem as MeasureTypeEntity;
+			material.MaterialType = MaterialTypeComboBox.SelectedItem as MaterialTypeEntity;
+
+			var updatedEntity = _service.UpdateMaterial(material);
 
 
 
 
-			};
+			materials.Add(updatedEntity.Result);
 
-
-
-			_service.CreateMaterial(material);
-			materials.Add(material);
-
-			MaterialsUC.materialsEntities.Add(material);
-
-			MaterialNameTextBox.Text = string.Empty;
-			MaterialCostTextBox.Text = string.Empty;
-			MaterialSizeTextBox.Text = string.Empty;
-			MaterialCommentTextBlock.Text = string.Empty;
-			MaterialQuantityTextBox.Text = string.Empty;
-			MaterialTypeComboBox.Text = "Please Select";
-			MaterialMeasureTypeComboBox.Text = "Please Select";
+			MaterialsUC.materialsEntities.Add(updatedEntity.Result);
+			this.Close();
 
 		}
 		else
 		{
-			MessageBox.Show("Material already Exists");
-		}
+			if (!_service.MaterialExists(MaterialNameTextBox.Text))
+			{
 
+
+				_service.CreateMaterial(material);
+				materials.Add(material);
+
+				MaterialsUC.materialsEntities.Add(material);
+
+
+				MaterialNameTextBox.Text = string.Empty;
+				MaterialCostTextBox.Text = string.Empty;
+				MaterialSizeTextBox.Text = string.Empty;
+				MaterialCommentTextBlock.Text = string.Empty;
+				MaterialQuantityTextBox.Text = string.Empty;
+				MaterialTypeComboBox.Text = "Please Select";
+				MaterialMeasureTypeComboBox.Text = "Please Select";
+
+
+			}
+			else
+			{
+				MessageBox.Show("Material already Exists");
+			}
+		}
 	}
 
+	private MaterialsEntity GenerateMaterialInfo()
+	{
+		return new MaterialsEntity
+		{
 
+			Id = material is not null ? material.Id : 0,
+			Name = MaterialNameTextBox.Text,
+			MaterialTypeId = (int)MaterialTypeComboBox.SelectedValue,
+			MaterialMeasureTypeId = (int)MaterialMeasureTypeComboBox.SelectedValue,
+			MaterialType = material is not null ? material.MaterialType : null,
+			MaterialMeasureType = material is not null ? material.MaterialMeasureType : null,
+			Cost = Convert.ToDouble(MaterialCostTextBox.Text),
+			Qty = Convert.ToDouble(MaterialQuantityTextBox.Text),
+			Size = MaterialSizeTextBox.Text,
+			Comments = MaterialCommentTextBlock.Text
+
+
+
+
+		};
+	}
 
 	private void MaterialMeasureType_KeyDown(object sender, KeyEventArgs e)
 	{
@@ -158,12 +220,14 @@ public partial class AddMaterial : Window
 
 	private void CreateMaterialMeasureType()
 	{
+		if (MaterialMeasureTypeComboBox.Text == string.Empty) { return; }
+		if (!MaterialMeasureTypeComboBox.Text.Any(item => char.IsLetter(item))) { return; }
 
 		if (!_service.MaterialMeasureExists(MaterialMeasureTypeComboBox.Text))
 		{
 			MeasureTypeEntity measureType = new MeasureTypeEntity
 			{
-				Type = MaterialMeasureTypeComboBox.Text
+				Type = MaterialMeasureTypeComboBox.Text.Trim()
 			};
 
 			var createdMeasureType = _service.CreateMeasureType(measureType);

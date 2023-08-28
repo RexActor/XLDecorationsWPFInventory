@@ -13,8 +13,11 @@ public interface IMaterialService
 {
 
 	public Task<MaterialsEntity> CreateMaterial(MaterialsEntity entity);
+	public Task<MaterialsEntity> UpdateMaterial(MaterialsEntity entity);
 	public Task<MaterialTypeEntity> CreateMaterialType(MaterialTypeEntity entity);
 	public ObservableCollection<MaterialsEntity> GetMaterial();
+
+	public Task<MaterialsEntity> GetMaterialById(int id);
 	public ObservableCollection<MaterialTypeEntity> GetMaterialType();
 	public bool MaterialExists(string materialName);
 	public bool MaterialTypeExists(string materialTypeName);

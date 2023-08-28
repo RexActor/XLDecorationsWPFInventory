@@ -90,6 +90,8 @@ public partial class CustomersUC : UserControl
 	private void RemoveCustomerMenu_Click(object sender, RoutedEventArgs e)
 	{
 
+		if (CustomerListBox.SelectedItem is null) return;
+
 		MessageBoxResult messageBoxResult = MessageBox.Show("You will be permanently deleting customer! Are you sure you want to do it?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
 		CustomerEntity customerEntity = CustomerListBox.SelectedItem as CustomerEntity;

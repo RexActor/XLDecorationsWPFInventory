@@ -27,12 +27,14 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem x:Name="CreateMaterialMenu" Header="Create Material" Click="CreateMaterialMenu_Click"/>
+                        <MenuItem x:Name="UpdateMaterialMenu" Header="Update Material" Click="UpdateMaterialMenu_Click"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Width="100" Header="Material" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Width="100" Header="Measure Type" DisplayMemberBinding="{Binding MaterialMeasureType.Type}"/>
                         <GridViewColumn Width="50" Header="Qty" DisplayMemberBinding="{Binding Qty}"/>
                         <GridViewColumn Width="50" Header="Cost" DisplayMemberBinding="{Binding Cost}"/>
                         <GridViewColumn Width="100" Header="Material Type" DisplayMemberBinding="{Binding MaterialType.Type}"/>

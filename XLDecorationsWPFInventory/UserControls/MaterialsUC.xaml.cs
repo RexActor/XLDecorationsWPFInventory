@@ -31,6 +31,7 @@ public partial class MaterialsUC : UserControl
 	public static ObservableCollection<MaterialTypeEntity> materialTypeEntities = new ObservableCollection<MaterialTypeEntity>();
 
 	private readonly IMaterialService _service = MainWindow._materialService;
+	AddMaterial addMaterial;
 
 	public MaterialsUC()
 	{
@@ -50,7 +51,12 @@ public partial class MaterialsUC : UserControl
 
 	private void CreateMaterialMenu_Click(object sender, RoutedEventArgs e)
 	{
-		AddMaterial addMaterial = new AddMaterial();
+		if (AddMaterial.material is not null)
+		{
+			AddMaterial.material = null;
+		}
+
+		addMaterial = new AddMaterial();
 		addMaterial.Show();
 
 	}
@@ -72,5 +78,24 @@ public partial class MaterialsUC : UserControl
 			}
 		}
 
+	}
+
+	private async void UpdateMaterialMenu_Click(object sender, RoutedEventArgs e)
+	{
+
+		if (MaterialListView.SelectedItem is not null)
+		{
+
+			MaterialsEntity material = MaterialListView.SelectedItem as MaterialsEntity;
+
+
+
+			AddMaterial.material = await _service.GetMaterialById(material.Id);
+
+
+
+			addMaterial = new AddMaterial();
+			addMaterial.Show();
+		}
 	}
 }
