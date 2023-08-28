@@ -27,6 +27,8 @@ public partial class MaterialsUC : UserControl
 {
 
 
+
+
 	public static ObservableCollection<MaterialsEntity> materialsEntities = new ObservableCollection<MaterialsEntity>();
 	public static ObservableCollection<MaterialTypeEntity> materialTypeEntities = new ObservableCollection<MaterialTypeEntity>();
 
@@ -97,5 +99,20 @@ public partial class MaterialsUC : UserControl
 			addMaterial = new AddMaterial();
 			addMaterial.Show();
 		}
+	}
+
+
+
+	private void MaterialListView_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+	{
+		if (MaterialListView.SelectedItem is null)
+		{
+			UpdateMaterialMenu.IsEnabled = false;
+		}
+		else
+		{
+			UpdateMaterialMenu.IsEnabled = true;
+		}
+
 	}
 }
