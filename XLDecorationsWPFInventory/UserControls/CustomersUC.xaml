@@ -52,24 +52,24 @@
             <Button x:Name="CreateCustomerBtn" Grid.Row="5" Grid.ColumnSpan="2" Margin="10,10,10,10" Content="Create Customer" Background="Bisque" FontWeight="Bold" FontSize="15" Click="CreateCustomerBtn_Click" />
 
         </Grid>
-        <ListView x:Name="CustomerListBox" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,265" HorizontalContentAlignment="Right">
+        <ListView x:Name="CustomerListBox" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,265" HorizontalContentAlignment="Right" MouseRightButtonUp="CustomerListBox_MouseRightButtonUp">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ContextMenu>
-                
+
                 <ContextMenu>
 
                     <MenuItem  x:Name="CustomerOrdersMenu" Header="View Orders" Click="CustomerOrdersMenu_Click" />
-                    <MenuItem x:Name="CreateCustomerOrder" Header="Create Order" Click="CreateCustomerOrder_Click"/>
+                    <MenuItem x:Name="CreateCustomerOrder" IsEnabled="False" Header="Create Order" Click="CreateCustomerOrder_Click"/>
                     <MenuItem x:Name="RemoveCustomerMenu" Header="Delete Customer" Click="RemoveCustomerMenu_Click"/>
 
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
-                
+
                 <GridView>
                     <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding CustomerName}"/>

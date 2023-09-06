@@ -31,13 +31,14 @@ public partial class CustomersUC : UserControl
 
 	private readonly ICustomersService _service = MainWindow._service;
 	ObservableCollection<CustomerEntity> customerEntities = new ObservableCollection<CustomerEntity>();
-
+	
 	public CustomersUC()
 	{
 		InitializeComponent();
 
 		customerEntities = GetCustomers();
 		CustomerListBox.ItemsSource = customerEntities;
+		
 	}
 
 	private void CreateCustomerBtn_Click(object sender, RoutedEventArgs e)
@@ -109,5 +110,28 @@ public partial class CustomersUC : UserControl
 	private void CreateCustomerOrder_Click(object sender, RoutedEventArgs e)
 	{
 
+
+
+
+
+		if (CustomerListBox.SelectedItem is not null)
+		{
+			CreateOrder.customer = CustomerListBox.SelectedItem as CustomerEntity;
+		}
+		CreateOrder createOrder = new CreateOrder();
+		createOrder.Show();
+
+	}
+
+	private void CustomerListBox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+	{
+		if (CustomerListBox.SelectedItem is null)
+		{
+			CreateCustomerOrder.IsEnabled = false;
+		}
+		else
+		{
+			CreateCustomerOrder.IsEnabled = true;
+		}
 	}
 }
