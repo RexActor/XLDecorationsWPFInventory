@@ -133,7 +133,7 @@ namespace XLDecorationsWPFInventory
 
 		private void MaterialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var entity = MaterialComboBox.SelectedItem as MaterialsEntity;
+			var entity = MaterialComboBox.SelectedItem as MaterialsEntity;	
 
 			if (entity is null) { return; }
 
