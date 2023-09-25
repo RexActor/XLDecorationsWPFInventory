@@ -28,14 +28,21 @@ namespace XLDecorationsWPFInventory
 
 		public static CustomerEntity customer = new CustomerEntity();
 		private readonly IMaterialService _materialService = MainWindow._materialService;
+		private readonly IOrdersService _orderService = MainWindow._orderService;
 
 		ComboBox MaterialComboBox;
 		TextBox MaterialQtyTextBox;
 		Label MaterialMeasureLabel;
+		Label MaterialAddStatusLabel;
+
 		bool MaterialCanBeAdded = true;
 		bool MaterialCanBeRemoved = false;
 		int definiedRows;
 		List<RowDefinition> rowDefinitions = new List<RowDefinition>();
+		List<OrderItemEntity> orderItems = new List<OrderItemEntity>();
+
+		MaterialsEntity materialsEntity;
+
 		public CreateOrder()
 		{
 			InitializeComponent();
@@ -104,6 +111,7 @@ namespace XLDecorationsWPFInventory
 
 			MaterialQtyTextBox = new TextBox();
 			MaterialQtyTextBox.Name = $"MaterialQuantity_{definiedRows}";
+			MaterialQtyTextBox.KeyUp += MaterialQtyTextBox_KeyUp;
 			MaterialQtyTextBox.Width = 50;
 			MaterialQtyTextBox.Margin = new Thickness(0, 0, 5, 5);//margin on bottom and right
 
@@ -112,17 +120,30 @@ namespace XLDecorationsWPFInventory
 			MaterialMeasureLabel.Name = $"MaterialMeasureLabel_{definiedRows}";
 			MaterialMeasureLabel.Margin = new Thickness(0, 0, 5, 5); //margin on bottom and right
 
+			MaterialAddStatusLabel = new Label();
+			MaterialAddStatusLabel.Content = "";
+			MaterialAddStatusLabel.Name = $"MaterialAddStatusLabel_{definiedRows}";
+			MaterialAddStatusLabel.FontWeight = FontWeights.Bold;
+			MaterialAddStatusLabel.Foreground = new SolidColorBrush(Colors.Red);
+			MaterialAddStatusLabel.Margin = new Thickness(0, 0, 5, 5); //margin on bottom and right
+
+
 
 			Grid.SetRow(MaterialComboBox, definiedRows);
 			Grid.SetRow(MaterialQtyTextBox, definiedRows);
 			Grid.SetRow(MaterialMeasureLabel, definiedRows);
+			Grid.SetRow(MaterialAddStatusLabel, definiedRows);
 
 			Grid.SetColumn(MaterialQtyTextBox, 1);
 			Grid.SetColumn(MaterialMeasureLabel, 2);
 
+
+			Grid.SetColumn(MaterialAddStatusLabel, 3);
+
 			MaterialGrid.Children.Add(MaterialComboBox);
 			MaterialGrid.Children.Add(MaterialQtyTextBox);
 			MaterialGrid.Children.Add(MaterialMeasureLabel);
+			MaterialGrid.Children.Add(MaterialAddStatusLabel);
 
 			MaterialCanBeAdded = false;
 			OrderMaterialRemoveButton.IsEnabled = true;
@@ -131,11 +152,53 @@ namespace XLDecorationsWPFInventory
 			MaterialScrollViewer.ScrollToBottom();
 		}
 
+		private void MaterialQtyTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+
+			if (e.Key == Key.Enter)
+			{
+
+				var thisTextbox = sender as TextBox;
+				if (thisTextbox.Text == string.Empty) { return; }
+
+				OrderItemEntity newOrderItem = new OrderItemEntity
+				{
+
+					Material = materialsEntity,
+					MaterialId = materialsEntity.Id,
+					MaterialQuantity = int.TryParse(thisTextbox.Text, out int quanttiy) ? quanttiy : 0,
+
+
+				};
+
+
+
+				orderItems.Add(newOrderItem);
+				MaterialCanBeAdded = true;
+
+				var comboBoxName = thisTextbox.Name;
+				var affectedRow = comboBoxName.Split("_");
+
+				foreach (var item in MaterialGrid.Children)
+				{
+					if (item is Label)
+					{
+						var label = (Label)item;
+						if (label.Name == $"MaterialAddStatusLabel_{affectedRow[1]}")
+						{
+							label.Content = "Added";
+						}
+					}
+				}
+
+			}
+		}
+
 		private void MaterialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var entity = MaterialComboBox.SelectedItem as MaterialsEntity;	
+			materialsEntity = MaterialComboBox.SelectedItem as MaterialsEntity;
 
-			if (entity is null) { return; }
+			if (materialsEntity is null) { return; }
 
 			var comboBoxName = MaterialComboBox.Name;
 			var affectedRow = comboBoxName.Split("_");
@@ -148,12 +211,12 @@ namespace XLDecorationsWPFInventory
 					var label = (Label)item;
 					if (label.Name == $"MaterialMeasureLabel_{affectedRow[1]}")
 					{
-						label.Content = entity.MaterialMeasureType.Type.ToString();
+						label.Content = materialsEntity.MaterialMeasureType.Type.ToString();
 					}
 				}
 			}
 
-			MaterialCanBeAdded = true;
+
 
 		}
 
@@ -174,7 +237,12 @@ namespace XLDecorationsWPFInventory
 					if (labelChild.Name == $"MaterialMeasureLabel_{usedRows - 1}")
 					{
 						childrenTORemove.Add(labelChild);
-						Debug.WriteLine($"{labelChild.Name} has been removed");
+						//Debug.WriteLine($"{labelChild.Name} has been removed");
+					};
+					if (labelChild.Name == $"MaterialAddStatusLabel_{usedRows - 1}")
+					{
+						childrenTORemove.Add(labelChild);
+						//Debug.WriteLine($"{labelChild.Name} has been removed");
 					};
 
 				}
@@ -184,7 +252,7 @@ namespace XLDecorationsWPFInventory
 					if (comboBoxChild.Name == $"MaterialComboBox_{usedRows - 1}")
 					{
 						childrenTORemove.Add(comboBoxChild);
-						Debug.WriteLine($"{comboBoxChild.Name} has been removed");
+						//Debug.WriteLine($"{comboBoxChild.Name} has been removed");
 					};
 				}
 				if (child is TextBox)
@@ -193,7 +261,7 @@ namespace XLDecorationsWPFInventory
 					if (textBoxChild.Name == $"MaterialQuantity_{usedRows - 1}")
 					{
 						childrenTORemove.Add(textBoxChild);
-						Debug.WriteLine($"{textBoxChild.Name} has been removed");
+						//Debug.WriteLine($"{textBoxChild.Name} has been removed");
 					};
 				}
 			}
@@ -212,8 +280,45 @@ namespace XLDecorationsWPFInventory
 			{
 				MaterialGrid.Children.Remove(item);
 			}
-
+			orderItems.RemoveAt(orderItems.Count - 1);
 			MaterialCanBeAdded = true;
+		}
+
+
+		private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+		{
+
+			if (OrderNameTextBox.Text == string.Empty) { return; }
+			if (OrderQuantityTextBox.Text == string.Empty) { return; }
+
+
+			OrdersEntity order = new OrdersEntity
+			{
+
+				Customer = customer,
+				OrderName = OrderNameTextBox.Text,
+				OrderQuantity = int.TryParse(OrderQuantityTextBox.Text, out int quantity) ? quantity : 0,
+				CustomerId = customer.Id,
+			};
+
+
+
+			var createdOrder = _orderService.CreateOrder(order);
+
+
+
+			orderItems.ForEach(orderMaterial =>
+			{
+				orderMaterial.OrderId = order.Id;
+				orderMaterial.Orders = order;
+				_orderService.CreateOrderItem(orderMaterial);
+
+			});
+
+
+
+
+
 		}
 	}
 }

@@ -49,7 +49,7 @@ public partial class App : Application
 		// ...
 		services.AddScoped<ICustomersService, CustomersService>();
 		services.AddScoped<IMaterialService, MaterialService>();
-
+		services.AddScoped<IOrdersService, OrdersService>();
 		services.AddTransient(typeof(MainWindow));
 	}
 

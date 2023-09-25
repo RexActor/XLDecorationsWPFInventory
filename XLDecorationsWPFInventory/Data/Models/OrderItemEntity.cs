@@ -12,11 +12,17 @@ public class OrderItemEntity
 	public int Id { get; set; }
 
 
+	public int MaterialId { get; set; }
+
+	[ForeignKey(nameof(MaterialId))]
+	public MaterialsEntity Material { get; set; }
+	public int MaterialQuantity { get; set; }
+
 	public int OrderId { get; set; }
 
 	[ForeignKey(nameof(OrderId))]
 	public OrdersEntity Orders { get; set; }
 
-	
+
 
 }

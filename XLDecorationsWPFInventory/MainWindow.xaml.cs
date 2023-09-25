@@ -28,7 +28,7 @@ public partial class MainWindow : Window
 	public static MainWindow mainWindow;
 	public static readonly CustomersService _service = new CustomersService();
 	public static readonly MaterialService _materialService = new MaterialService();
-	
+	public static readonly OrdersService _orderService = new OrdersService();
 
 
 	public MainWindow()

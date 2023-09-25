@@ -10,6 +10,8 @@ namespace XLDecorationsWPFInventory.Data.Models;
 public class OrdersEntity
 {
 	public int Id { get; set; }
+	public string OrderName { get; set; }
+	public int OrderQuantity { get; set; }
 	public int CustomerId { get; set; }
 
 	[ForeignKey(nameof(CustomerId))]

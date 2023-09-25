@@ -80,11 +80,13 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Order Information" FontWeight="Bold" FontSize="15" HorizontalContentAlignment="Center"/>
+                <Button x:Name="CreateOrderButton" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="50" Content="Create" Margin="5 2 5 2" Click="CreateOrderButton_Click" />
+
                 <!--LABELS-->
                 <Label Grid.Row="1" Content="Order Name"/>
                 <Label Grid.Row="2" Content="Order Quantity"/>
                 <Label Grid.Row="3" Content="Materials"/>
-
+               
                 <!--DYNAMIC DATA-->
                 <TextBox x:Name="OrderNameTextBox" Grid.Row="1" Grid.Column="1" Margin="5"/>
                 <TextBox x:Name="OrderQuantityTextBox" Grid.Row="2" Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="5"/>
@@ -96,6 +98,7 @@
                         <Grid x:Name="MaterialGrid" Grid.Row="4" Grid.ColumnSpan="2" Margin="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="70"/>
 
