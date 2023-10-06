@@ -43,6 +43,12 @@ namespace XLDecorationsWPFInventory.Data.Services
 
 		}
 
+		public List<OrderItemEntity> GetOrderItems(OrdersEntity order)
+		{
+			var orderItems = _context.OrderItems.Include(item => item.Orders).Include(item => item.Material).Where(item => item.OrderId == order.Id).ToList();
+			return orderItems;
+		}
+
 		public List<OrdersEntity> GetOrders(CustomerEntity customer)
 		{
 			var orders = _context.Orders.Include(item => item.Customer).Where(item => item.CustomerId == customer.Id).ToList();

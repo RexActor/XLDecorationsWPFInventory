@@ -141,6 +141,15 @@ namespace XLDecorationsWPFInventory
 
 		private void MaterialQtyTextBox_KeyUp(object sender, KeyEventArgs e)
 		{
+			if (MaterialQtyTextBox.IsFocused)
+			{
+				ToolTip tp = new ToolTip();
+				tp.Content = "Press Enter";
+				tp.ShowsToolTipOnKeyboardFocus = true;
+				tp.IsOpen = true;
+
+				MaterialQtyTextBox.ToolTip = tp;
+			}
 
 			if (e.Key == Key.Enter)
 			{
@@ -171,7 +180,9 @@ namespace XLDecorationsWPFInventory
 						}
 					}
 				}
+				Keyboard.ClearFocus();
 			}
+
 		}
 
 		private void MaterialComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -212,11 +223,11 @@ namespace XLDecorationsWPFInventory
 					var labelChild = (Label)child;
 					if (labelChild.Name == $"MaterialMeasureLabel_{usedRows - 1}")
 					{
-						childrenTORemove.Add(labelChild);						
+						childrenTORemove.Add(labelChild);
 					};
 					if (labelChild.Name == $"MaterialAddStatusLabel_{usedRows - 1}")
 					{
-						childrenTORemove.Add(labelChild);						
+						childrenTORemove.Add(labelChild);
 					};
 
 				}
@@ -225,7 +236,7 @@ namespace XLDecorationsWPFInventory
 					var comboBoxChild = (ComboBox)child;
 					if (comboBoxChild.Name == $"MaterialComboBox_{usedRows - 1}")
 					{
-						childrenTORemove.Add(comboBoxChild);						
+						childrenTORemove.Add(comboBoxChild);
 					};
 				}
 				if (child is TextBox)
@@ -233,7 +244,7 @@ namespace XLDecorationsWPFInventory
 					var textBoxChild = (TextBox)child;
 					if (textBoxChild.Name == $"MaterialQuantity_{usedRows - 1}")
 					{
-						childrenTORemove.Add(textBoxChild);					
+						childrenTORemove.Add(textBoxChild);
 					};
 				}
 			}
@@ -260,6 +271,7 @@ namespace XLDecorationsWPFInventory
 		private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
 		{
 
+			if (orderItems.Count == 0) { MessageBox.Show("Please add Materials to order"); return; }
 			if (OrderNameTextBox.Text == string.Empty) { return; }
 			if (OrderQuantityTextBox.Text == string.Empty) { return; }
 
@@ -280,6 +292,11 @@ namespace XLDecorationsWPFInventory
 				_orderService.CreateOrderItem(orderMaterial);
 
 			});
+			if (ViewOrders.CustomerOrders is not null)
+			{
+				ViewOrders.CustomerOrders.Add(order);
+			}
+			this.Close();
 		}
 	}
 }
