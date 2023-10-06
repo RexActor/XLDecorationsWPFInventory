@@ -141,15 +141,6 @@ namespace XLDecorationsWPFInventory
 
 		private void MaterialQtyTextBox_KeyUp(object sender, KeyEventArgs e)
 		{
-			if (MaterialQtyTextBox.IsFocused)
-			{
-				ToolTip tp = new ToolTip();
-				tp.Content = "Press Enter";
-				tp.ShowsToolTipOnKeyboardFocus = true;
-				tp.IsOpen = true;
-
-				MaterialQtyTextBox.ToolTip = tp;
-			}
 
 			if (e.Key == Key.Enter)
 			{
@@ -181,6 +172,7 @@ namespace XLDecorationsWPFInventory
 					}
 				}
 				Keyboard.ClearFocus();
+
 			}
 
 		}

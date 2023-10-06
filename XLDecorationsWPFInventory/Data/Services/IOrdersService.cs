@@ -16,6 +16,8 @@ namespace XLDecorationsWPFInventory.Data.Services
 		public Task<OrderItemEntity> CreateOrderItem(OrderItemEntity entity);
 		public List<OrdersEntity> GetOrders(CustomerEntity customer);
 		public List<OrderItemEntity> GetOrderItems(OrdersEntity order);
+		public Task DeleteOrder(OrdersEntity order);
+		public Task DeleteOrderItem(OrderItemEntity orderItem);
 
 	}
 }

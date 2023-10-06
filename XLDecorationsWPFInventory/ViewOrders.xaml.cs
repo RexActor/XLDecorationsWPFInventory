@@ -72,5 +72,45 @@ namespace XLDecorationsWPFInventory
 
 
 		}
+
+		private void OrderDeleteMenu_Click(object sender, RoutedEventArgs e)
+		{
+
+
+			if (CustomerOrderListView.SelectedItem is not null)
+			{
+				OrdersEntity selectedOrder = CustomerOrderListView.SelectedItem as OrdersEntity;
+
+
+				var messageBoxResponse = MessageBox.Show($"You are deleting Order - [{selectedOrder.OrderName}] Are you sure about this?", $"Order with name - {selectedOrder.OrderName} deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (messageBoxResponse == MessageBoxResult.Yes)
+				{
+					_ordersService.DeleteOrder(selectedOrder);
+					CustomerOrders.Remove(selectedOrder);
+				}
+
+
+			}
+
+		}
+
+		private void OrderItemDeleteMenu_Click(object sender, RoutedEventArgs e)
+		{
+			if (CustomerOrderMaterialListView.SelectedItem is not null)
+			{
+				OrderItemEntity selectedOrderItem = CustomerOrderMaterialListView.SelectedItem as OrderItemEntity;
+
+
+				var messageBoxResponse = MessageBox.Show($"You are deleting Material - [{selectedOrderItem.Material.Name}] Are you sure about this?", $"Material with name - {selectedOrderItem.Material.Name} deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+				if (messageBoxResponse == MessageBoxResult.Yes)
+				{
+					_ordersService.DeleteOrderItem(selectedOrderItem);
+					OrderItems.Remove(selectedOrderItem);
+				}
+
+
+
+			}
+		}
 	}
 }

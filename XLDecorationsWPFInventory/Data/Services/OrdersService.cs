@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 using XLDecorationsWPFInventory.Data.Models;
 
@@ -41,6 +42,26 @@ namespace XLDecorationsWPFInventory.Data.Services
 
 			return entity;
 
+		}
+
+		public async Task DeleteOrder(OrdersEntity order)
+		{
+			var orderToDelete = await _context.Orders.Where(item => item.Id == order.Id).FirstOrDefaultAsync();
+			if (orderToDelete is not null)
+			{
+				_context.Orders.Remove(orderToDelete);
+				await _context.SaveChangesAsync();
+			}
+		}
+
+		public async Task DeleteOrderItem(OrderItemEntity orderItem)
+		{
+			var orderItemToDelete = await _context.OrderItems.Where(item => item.Id == orderItem.Id).FirstOrDefaultAsync();
+			if (orderItemToDelete is not null)
+			{
+				_context.OrderItems.Remove(orderItemToDelete);
+				await _context.SaveChangesAsync();
+			}
 		}
 
 		public List<OrderItemEntity> GetOrderItems(OrdersEntity order)

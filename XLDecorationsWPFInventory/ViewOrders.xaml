@@ -24,6 +24,15 @@
             </Grid.ColumnDefinitions>
 
             <ListView x:Name="CustomerOrderMaterialListView" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="10">
+                <ListView.ContextMenu>
+
+                    <ContextMenu>
+
+                        <MenuItem  x:Name="OrderItemDeleteMenu" Header="Delete Order Item" Click="OrderItemDeleteMenu_Click" />
+
+
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.View>
 
                     <GridView>
@@ -36,6 +45,16 @@
             </ListView>
 
             <ListView x:Name="CustomerOrderListView" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,10" SelectionChanged="CustomerOrderListView_SelectionChanged">
+                <ListView.ContextMenu>
+
+                    <ContextMenu>
+
+                        <MenuItem  x:Name="OrderDeleteMenu" Header="Delete Order" Click="OrderDeleteMenu_Click" />
+
+
+                    </ContextMenu>
+                </ListView.ContextMenu>
+
                 <ListView.View>
 
                     <GridView>
