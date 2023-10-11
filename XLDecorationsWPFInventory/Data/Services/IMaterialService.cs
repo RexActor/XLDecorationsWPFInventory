@@ -14,6 +14,7 @@ public interface IMaterialService
 
 	public Task<MaterialsEntity> CreateMaterial(MaterialsEntity entity);
 	public Task<MaterialsEntity> UpdateMaterial(MaterialsEntity entity);
+	public Task<MaterialsEntity> UpdateMaterialAfterOrder(int entityId, int quantity);
 	public Task<MaterialTypeEntity> CreateMaterialType(MaterialTypeEntity entity);
 	public ObservableCollection<MaterialsEntity> GetMaterial();
 

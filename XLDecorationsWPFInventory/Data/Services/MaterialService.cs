@@ -150,5 +150,23 @@ public class MaterialService : IMaterialService
 		return _context.MaterialTypes.Where(item => item.Type.ToLower() == materialTypeName.ToLower()).Any();
 	}
 
+	public async Task<MaterialsEntity> UpdateMaterialAfterOrder(int entityId, int quantity)
+	{
+		var materialToUpdate = await _context.Materials.Where(item => item.Id == entityId).Include(item => item.MaterialType).Include(item => item.MaterialMeasureType).FirstOrDefaultAsync();
 
+		if (materialToUpdate is not null)
+		{
+			double newQuantity = materialToUpdate.Qty - Convert.ToDouble(quantity);
+
+			materialToUpdate.Qty = newQuantity;
+
+
+			_context.Materials.Update(materialToUpdate);
+
+			await _context.SaveChangesAsync();
+		}
+
+
+		return materialToUpdate;
+	}
 }

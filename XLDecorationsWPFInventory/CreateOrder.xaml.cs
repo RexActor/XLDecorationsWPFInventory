@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 using XLDecorationsWPFInventory.Data.Models;
 using XLDecorationsWPFInventory.Data.Services;
+using XLDecorationsWPFInventory.UserControls;
 
 namespace XLDecorationsWPFInventory
 {
@@ -282,6 +283,9 @@ namespace XLDecorationsWPFInventory
 				orderMaterial.OrderId = order.Id;
 				orderMaterial.Orders = order;
 				_orderService.CreateOrderItem(orderMaterial);
+				_materialService.UpdateMaterialAfterOrder(orderMaterial.Material.Id, orderMaterial.MaterialQuantity);
+				MaterialsUC.materialsEntities.Clear();
+				MaterialsUC.materialsEntities = _materialService.GetMaterial();
 
 			});
 			if (ViewOrders.CustomerOrders is not null)
