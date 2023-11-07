@@ -29,5 +29,7 @@ public class MaterialsEntity
 
 
 	public string Size { get; set; }
-	public string Comments { get; set; }
+
+	
+	public string? Comments { get; set; }
 }

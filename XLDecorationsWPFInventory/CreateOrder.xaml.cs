@@ -263,7 +263,7 @@ namespace XLDecorationsWPFInventory
 
 		private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			double totalCost = 0;
 			if (orderItems.Count == 0) { MessageBox.Show("Please add Materials to order"); return; }
 			if (OrderNameTextBox.Text == string.Empty) { return; }
 			if (OrderQuantityTextBox.Text == string.Empty) { return; }
@@ -286,8 +286,12 @@ namespace XLDecorationsWPFInventory
 				_materialService.UpdateMaterialAfterOrder(orderMaterial.Material.Id, orderMaterial.MaterialQuantity);
 				MaterialsUC.materialsEntities.Clear();
 				MaterialsUC.materialsEntities = _materialService.GetMaterial();
+				totalCost += orderMaterial.TotalCost;
 
 			});
+
+			_orderService.UpdateOrderTotalCost(order, totalCost);
+
 			if (ViewOrders.CustomerOrders is not null)
 			{
 				ViewOrders.CustomerOrders.Add(order);

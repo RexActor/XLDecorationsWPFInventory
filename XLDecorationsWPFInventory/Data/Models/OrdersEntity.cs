@@ -14,6 +14,8 @@ public class OrdersEntity
 	public int OrderQuantity { get; set; }
 	public int CustomerId { get; set; }
 
+	public double TotalOrderValue { get; set; }
+
 	[ForeignKey(nameof(CustomerId))]
 	public CustomerEntity Customer { get; set; }
 }

@@ -109,7 +109,6 @@ public partial class AddMaterial : Window
 		if (MaterialNameTextBox.Text == string.Empty ||
 			MaterialCostTextBox.Text == string.Empty ||
 			MaterialSizeTextBox.Text == string.Empty ||
-			MaterialCommentTextBlock.Text == string.Empty ||
 			MaterialQuantityTextBox.Text == string.Empty ||
 			MaterialTypeComboBox.SelectedItem is not MaterialTypeEntity ||
 			MaterialMeasureTypeComboBox.SelectedItem is not MeasureTypeEntity)

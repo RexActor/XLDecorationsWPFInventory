@@ -6,8 +6,91 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:XLDecorationsWPFInventory.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="LightCoral">
-    <Grid>
+             d:DesignHeight="450" d:DesignWidth="800" Background="LightCoral" IsVisibleChanged="OrdersUserControl_IsVisibleChanged"
             
+             >
+
+    <Grid>
+
+
+        <ListView x:Name="AllOrdersListview" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,10,10" HorizontalContentAlignment="Center" ItemBindingGroup="{Binding OrderName}" >
+
+            <ListView.View>
+
+                <GridView>
+                    <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding OrderName}"/>
+                    <GridViewColumn Width="150" Header="Material" DisplayMemberBinding="{Binding OrderItems.Material.Name}"/>
+                    <GridViewColumn Width="150" Header="Material Type" DisplayMemberBinding="{Binding OrderItems.Material.MaterialType.Type}"/>
+
+                    <GridViewColumn Width="100" Header="Quantity" DisplayMemberBinding="{Binding OrderQuantity}"/>
+                    <GridViewColumn Width="100" Header="Unit Cost" DisplayMemberBinding="{Binding OrderItems.Material.Cost , StringFormat={}{0:C2}, ConverterCulture=gb-GB}"/>
+                    <GridViewColumn Width="100" Header="Total  Cost" DisplayMemberBinding="{Binding OrderItems.TotalCost, StringFormat={}{0:C2}, ConverterCulture=gb-GB}" />
+
+
+                </GridView>
+            </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+
+
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="False">
+                                            <Expander.Header>
+                                                <StackPanel x:Name="First" Orientation="Horizontal">
+
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" Orders " FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                                                                      
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </GroupStyle.ContainerStyle>
+
+
+                </GroupStyle>
+                <GroupStyle>
+
+
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="False" Margin="20,0,0,0">
+                                            <Expander.Header >
+                                                <StackPanel x:Name="First" Orientation="Horizontal" >
+                                                    <TextBlock Text="Order " FontSize="18" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="#" FontWeight="Bold" Foreground="Gray" FontSize="18" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="18" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" Has" FontSize="18" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text="{Binding ItemCount}" FontSize="18" Foreground="#E44E25" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                    <TextBlock Text=" item(s)" FontSize="18" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter Margin="20,0,0,0"/>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </GroupStyle.ContainerStyle>
+
+
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+
     </Grid>
 </UserControl>

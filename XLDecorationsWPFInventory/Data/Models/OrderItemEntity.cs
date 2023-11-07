@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Castle.Components.DictionaryAdapter;
+
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -17,6 +20,9 @@ public class OrderItemEntity
 	[ForeignKey(nameof(MaterialId))]
 	public MaterialsEntity Material { get; set; }
 	public int MaterialQuantity { get; set; }
+
+	
+	public double TotalCost { get { return Material.Cost* MaterialQuantity; } }
 
 	public int OrderId { get; set; }
 

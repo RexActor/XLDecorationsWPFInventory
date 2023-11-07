@@ -19,8 +19,8 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="23*"/>
-                <ColumnDefinition Width="57*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="40*"/>
             </Grid.ColumnDefinitions>
 
             <ListView x:Name="CustomerOrderMaterialListView" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="10">
@@ -38,7 +38,8 @@
                     <GridView>
                         <GridViewColumn Width="50" Header="Id" DisplayMemberBinding="{Binding Material.Name}"/>
                         <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding MaterialQuantity}"/>
-                        <GridViewColumn Width="100" Header="Cost Per Unit" DisplayMemberBinding="{Binding Material.Cost}"/>
+                        <GridViewColumn Width="100" Header="Cost Per Unit" DisplayMemberBinding="{Binding Material.Cost,StringFormat={}{0:C2}, ConverterCulture=gb-GB}"/>
+                        <GridViewColumn Width="100" Header="Total  Cost" DisplayMemberBinding="{Binding TotalCost, StringFormat={}{0:C2}, ConverterCulture=gb-GB}" />
 
                     </GridView>
                 </ListView.View>
@@ -62,6 +63,7 @@
 
                         <GridViewColumn Width="100" Header="Name" DisplayMemberBinding="{Binding OrderName}"/>
                         <GridViewColumn Width="50" Header="Quantity" DisplayMemberBinding="{Binding OrderQuantity}"/>
+                        <GridViewColumn Width="100" Header="Total  Cost" DisplayMemberBinding="{Binding TotalOrderValue, StringFormat={}{0:C2}, ConverterCulture=gb-GB}" />
 
                     </GridView>
                 </ListView.View>
