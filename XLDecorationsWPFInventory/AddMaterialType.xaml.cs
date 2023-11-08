@@ -34,7 +34,7 @@ public partial class AddMaterialType : Window
 	private void CreateBtn_Click(object sender, RoutedEventArgs e)
 	{
 
-		if(MaterialTypeNameTextBox.Text==string.Empty || MaterialDescriptionTextBox.Text == string.Empty) { MessageBox.Show("Please fill all inputs"); return; }
+		if (MaterialTypeNameTextBox.Text == string.Empty) { MessageBox.Show("Please fill all inputs"); return; }
 
 		if (_serviceMaterial.MaterialTypeExists(MaterialTypeNameTextBox.Text)) { MessageBox.Show("Material Already exists!"); return; }
 

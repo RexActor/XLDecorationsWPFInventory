@@ -84,7 +84,7 @@ namespace XLDecorationsWPFInventory.Data.Services
 						OrderId = order.Id,
 						Orders = order,
 						OrderName = order.OrderName,
-						OrderQuantity = order.OrderQuantity,
+						OrderQuantity = orderItem.MaterialQuantity,
 						TotalOrderValue = order.TotalOrderValue,
 						Customer = order.Customer,
 						CustomerId = order.CustomerId,
